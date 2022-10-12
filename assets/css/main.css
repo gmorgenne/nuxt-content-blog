@@ -15,13 +15,16 @@ html {
   scroll-behavior: smooth;
 }
 
-body {
-  @apply text-slate-700;
-}
-
-
 a {
   text-decoration: underline;
+}
+
+.light-theme {
+  @apply text-black bg-white;
+}
+
+.dark-theme {
+  @apply text-white bg-slate-900;
 }
 
 
@@ -34,12 +37,26 @@ h6 {
   @apply font-header;
 }
 
+.page-enter-active,
+.page-leave-active {
+  transition: all 0.4s;
+}
+.page-enter-from,
+.page-leave-to {
+  opacity: 0;
+  filter: blur(1rem);
+}
+
 .icon {
   @apply inline-flex w-6 h-6;
 }
 
 .icon.solid {
   @apply fill-slate-500;
+}
+
+.dark-theme .icon.solid {
+  @apply fill-slate-200;
 }
 
 .icon.stroke {
@@ -52,7 +69,7 @@ h6 {
 }
 
 .cta.w-icon {
-  @apply flex items-center gap-2 pr-3;
+  @apply flex items-center gap-2 pr-3 text-black;
 }
 
 .img-cont img {
@@ -60,7 +77,11 @@ h6 {
 }
 
 .article-tags {
-  @apply flex gap-2 py-2;
+  @apply flex gap-2 py-2 flex-wrap;
+}
+
+.article-tags.expanded {
+  @apply flex
 }
 
 .article-tags .tag {
@@ -74,7 +95,11 @@ h6 {
   @apply p-12 bg-slate-50;
 }
 
-.page-heading>.wrapper {
+.dark-theme .page-heading {
+  @apply bg-slate-500;
+}
+
+.page-heading > .wrapper {
   @apply max-w-3xl m-auto;
 }
 

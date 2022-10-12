@@ -9,8 +9,6 @@ const expanded = ref(false);
 
 // helper function to flatten tags array
 const flatten = (tags, key) => {
-  console.log(tags);
-
   let _tags = tags
     .map((tag) => {
       let _tag = tag;
@@ -21,9 +19,6 @@ const flatten = (tags, key) => {
       return _tag;
     })
     .flat(1);
-
-  console.log({ _tags });
-
   return _tags;
 };
 
@@ -37,9 +32,8 @@ const { data } = await useAsyncData("tags", () => queryContent("blog").only(["ta
 
 // generate array without duplicates from flattened array
 const articleTags = [...new Set(flatten(data.value, "tags"))];
-
-console.log({ articleTags });
 </script>
+
 <template>
   <div class="tag-list" :class="{ active: expanded }">
     <!-- Button to toggle expand -->
@@ -49,8 +43,8 @@ console.log({ articleTags });
     </button>
     <ul class="article-tags" :class="{ expanded: expanded }">
       <!-- list out tags with links -->
-      <li v-for="(tag, n) in articleTags" :key="n" class="tag">
-        <NuxtLink :to="`/blog/tags/${tag}`" class="font-semibold"> {{ tag }} </NuxtLink>
+      <li v-for="(tag, i) in articleTags" :key="i" class="tag">
+        <NuxtLink :to="`/blog/tags/${tag}`" class="font-semibold">{{ tag }}</NuxtLink>
       </li>
     </ul>
   </div>
@@ -59,15 +53,15 @@ console.log({ articleTags });
 <style scoped>
 /* ... */
 .tag-list {
-  @apply flex items-center gap-2 p-2 border border-transparent  rounded-lg;
+  @apply flex items-center gap-2 p-2 border border-transparent rounded-lg;
 }
 .tag-list.active {
   @apply border-slate-200;
 }
 .article-tags {
-  @apply transition-all max-w-0 overflow-hidden;
+  @apply transition-all opacity-0 overflow-hidden duration-200 delay-100 ease-in max-h-0;
 }
 .article-tags.expanded {
-  @apply max-w-full;
+  @apply opacity-100 max-h-full;
 }
 </style>

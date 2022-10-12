@@ -18,23 +18,23 @@ useHead({
   meta: [{ name: "description", content: "Here's a list of all my great articles" }],
 });
 </script>
+
 <template>
   <main>
-    <header class="page-heading">
-      <div class="wrapper">
+    <section class="page-heading">
+      <div class="wrapper text-center">
         <h1 class="text-5xl font-extrabold">All articles</h1>
-        <p class="font-medium text-lg">Here's a list of all my great articles</p>
+        <p class="font-medium text-lg">Here's a list of all my blog posts</p>
       </div>
-    </header>
+    </section>
     <section class="page-section">
       <Tags />
-
       <!-- Render list of all articles in ./content/blog using `path` -->
       <!-- Provide only defined fieldsin the `:query` prop -->
       <ContentList
         path="/blog"
         :query="{
-          only: ['title', 'description', 'tags', '_path', 'img'],
+          only: ['title', 'description', 'tags', '_path', 'img', 'date'],
           where: {
             tags: {
               $contains: filter,
@@ -45,24 +45,7 @@ useHead({
       >
         <!-- Default list slot -->
         <template v-slot="{ list }">
-          <ul class="article-list">
-            <li v-for="article in list" :key="article._path" class="article-item">
-              <NuxtLink :to="article._path">
-                <div class="wrapper">
-                  <div class="img-cont w-32 shrink-0">
-                    <img :src="`/${article.img}`" :alt="article.title" class="rounded-lg max-h-[8rem]" />
-                  </div>
-                  <header>
-                    <h1 class="text-2xl font-semibold">{{ article.title }}</h1>
-                    <p>{{ article.description }}</p>
-                    <ul class="article-tags">
-                      <li class="tag !py-0.5" v-for="(tag, n) in article.tags" :key="n">{{ tag }}</li>
-                    </ul>
-                  </header>
-                </div>
-              </NuxtLink>
-            </li>
-          </ul>
+          <ArticleList :list="list" />
         </template>
 
         <!-- Not found slot to display message when no content us is found -->
